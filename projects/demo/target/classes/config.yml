@@ -1,0 +1,5 @@
+# src/main/resources/config.yml
+# The list of players who can use survival mode
+survival:
+  - Steve
+  - Notch
