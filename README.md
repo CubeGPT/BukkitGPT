@@ -15,7 +15,7 @@ BukkitGPT is an open source, free, AI-powered Minecraft Bukkit plugin generator.
 - [x] Automatically build plugin
 - [ ] Automatically fix bugs
 - [ ] Automatically test plugins
-- [ ] AI `Better Description`
+- [x] AI `Better Description`
 - [ ] Projects management
 - [ ] GUI
 

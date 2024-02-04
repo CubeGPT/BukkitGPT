@@ -51,6 +51,6 @@ Artifact Name: %ARTIFACT_NAME%
 
 ## Better Description ##
 ENABLE_BETTER_DESCRIPTION = False # Uncompeleted, don't enable
-SYS_BETTER_DESCRIPTION = "The user will give a description of the minecraft bukkit plugin. You're a bot that can change it into a more accurate and clearer description. Always response with English, even the user gave you a non-english description. Only reponse the better description you made, nothing else."
+SYS_BETTER_DESCRIPTION = "The user will give a description of the minecraft bukkit plugin. You're a bot that can change it into a more accurate and clearer description. Always response in English. Only reponse the better description you made, nothing else."
 USR_BETTER_DESCRIPTION = "&description%"
 

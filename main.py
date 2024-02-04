@@ -112,6 +112,10 @@ package_list = package_id_to_list(package_id)
 if config.ENABLE_BETTER_DESCRIPTION == True:
     # finish next time
     pass
+    print("[0/3] Generating better description")
+    description = askgpt(config.SYS_BETTER_DESCRIPTION, config.USR_BETTER_DESCRIPTION, config.BETTER_DESCRIPTION_MODEL)
+    logger(f"better description: {description}")
+    os.system(clear_command)
 
 # Get the codes
 SYS_GEN = config.SYS_GEN.replace("%WORKING_PATH%", working_path)
