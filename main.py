@@ -82,7 +82,7 @@ def package_to_path(package_id):
 def text_to_action(text, folder_name, package_list):
     text = json.loads(text)
     base_path = "projects"
-    source_folder = "demo"
+    source_folder = "template"
     destination_folder = os.path.join(base_path, folder_name)
 
     # Copy the whole folder from source to destination
@@ -112,6 +112,47 @@ if sys.platform.startswith('linux') or sys.platform.startswith('daiwin'):
 elif sys.platform.startswith('win'):
     clear_command = "cls"
 
+def generate_plugin():
+    # Get the codes
+    SYS_GEN = config.SYS_GEN.replace("%WORKING_PATH%", working_path)
+    USR_GEN = config.USR_GEN.replace("%DESCRIPTION%", description).replace("%PACKAGE_ID%", package_id).replace("%ARTIFACT_NAME%", artifact_name)
+    CODING_MODEL = config.CODING_MODEL
+    print("[1/3] Generating codes with model " + CODING_MODEL + "...")
+    print("This step may take 1 to 2 minutes, depending on the complexity of the project.")
+    code_reponse = askgpt(SYS_GEN, USR_GEN, CODING_MODEL)
+    while not "public void onEnable()" in code_reponse:
+        print("Bad code, regenerating...")
+        logger(f"Bad code, regenerating...")
+        code_reponse = askgpt(SYS_GEN, USR_GEN, CODING_MODEL)
+    os.system(clear_command)
+
+    print("[2/3] Creating project and copying the codes...")
+    text_to_action(code_reponse, artifact_name, package_list)
+    os.system(clear_command)
+
+    print("[3/3] Building project.")
+    print("The first build can take 5 minutes or even more, as Maven needs to download a lot of files. This depends somewhat on your network. You're better off doing something else during this long wait.")
+    project_path = "projects/" + artifact_name
+    build_result = build.build_project(project_path)
+
+    make_response(build_result)
+
+def make_response(build_result):
+    if "Error:" in build_result:
+        print("This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code.")
+        logger(f"Build failed. {build_result}")
+        print(build_result)
+        regenerate = input("Regenerate codes? (Y/n) ")
+        if regenerate == "n":
+            pass
+        else:
+            generate_plugin()
+    else:
+        print(build_result)
+        logger(f"Plugin is ready.")
+        print(f"Congratulations! Your plugin is ready. Now add the plugin to the projects/{artifact_name}/target directory and just find the jar file and put it in your server's plugins folder.")
+        print("BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, you can sponsor this project: https://www.buymeacoffee.com/baimoqilin")
+
 print("Welcome to BukkitGPT, an open source, free, AI-powered Minecraft Bukkit plugin generator developed by BaimoQilin (@Zhou-Shilin). Don't forget to check out the config.py configuration file, you need to fill in the OpenAI API key.")
 
 print("\n")
@@ -137,35 +178,4 @@ if config.ENABLE_BETTER_DESCRIPTION == True:
     logger(f"better description: {description}")
     os.system(clear_command)
 
-# Get the codes
-SYS_GEN = config.SYS_GEN.replace("%WORKING_PATH%", working_path)
-USR_GEN = config.USR_GEN.replace("%DESCRIPTION%", description).replace("%PACKAGE_ID%", package_id).replace("%ARTIFACT_NAME%", artifact_name)
-CODING_MODEL = config.CODING_MODEL
-print("[1/3] Generating codes with model " + CODING_MODEL + "...")
-print("This step may take 1 to 2 minutes, depending on the complexity of the project.")
-code_reponse = askgpt(SYS_GEN, USR_GEN, CODING_MODEL)
-while not "public void onEnable()" in code_reponse:
-    print("Bad code, regenerating...")
-    logger(f"Bad code, regenerating...")
-    code_reponse = askgpt(SYS_GEN, USR_GEN, CODING_MODEL)
-os.system(clear_command)
-
-print("[2/3] Creating project and copying the codes...")
-text_to_action(code_reponse, artifact_name, package_list)
-os.system(clear_command)
-
-print("[3/3] Building project.")
-print("The first build can take 5 minutes or even more, as Maven needs to download a lot of files. This depends somewhat on your network. You're better off doing something else during this long wait.")
-project_path = "projects/" + artifact_name
-build_result = build.build_project(project_path)
-os.system(clear_command)
-
-if "Error:" in build_result:
-    print("This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code.")
-    logger(f"Build failed. {build_result}")
-    print(build_result)
-else:
-    print(build_result)
-    logger(f"Plugin is ready.")
-    print(f"Congratulations! Your plugin is ready. Now add the plugin to the projects/{artifact_name}/target directory and just find the jar file and put it in your server's plugins folder.")
-    print("BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, you can sponsor this project: https://www.buymeacoffee.com/baimoqilin")
+generate_plugin()
