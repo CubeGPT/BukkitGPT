@@ -21,6 +21,8 @@ def build_project(projectPath):
 
         # Execute Maven build command
         os.system("build.bat")
+
+        return "Suceed"
         
     except Exception as e:
         return f"Error: {str(e)}"
