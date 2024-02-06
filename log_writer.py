@@ -1,16 +1,27 @@
 import os
-import datetime
+import time
+from datetime import datetime
+
+first_call_time = None
+
+def get_log_filename():
+    global first_call_time
+
+    if first_call_time is None:
+        first_call_time = datetime.now()
+
+    log_filename = first_call_time.strftime("logs/%b-%d-%H-%M-%S-%Y")
+
+    return log_filename
 
 def logger(text):
-    # Get the current timestamp
-    now = datetime.datetime.now()
-    timestamp = now.strftime("%b-%d-%Y-%H-%M-%S")  # Format: SS-MinuteMinute-HH-DD-MonthMonth-YYYY
+    log_filename = get_log_filename()
 
-    # Create the logs folder if it doesn't exist
-    logs_folder = "logs"
-    os.makedirs(logs_folder, exist_ok=True)
+    timestamp_prefix = datetime.now().strftime("[%H:%M:%S]")
 
-    # Create or append to the log file
-    log_file_path = os.path.join(logs_folder, f"{timestamp}.log")
-    with open(log_file_path, "a") as log_file:
-        log_file.write(f"[{now.strftime('%H:%M:%S')}] {text}\n")
+    log_line = f"{timestamp_prefix} {text}\n"
+
+    os.makedirs(os.path.dirname(log_filename), exist_ok=True)
+
+    with open(log_filename + ".log", "a") as log_file:
+        log_file.write(log_line)
