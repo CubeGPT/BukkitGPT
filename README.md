@@ -8,12 +8,18 @@
 </div>
 
 ## Introduction
+> Give GPT your idea, AI generates customized Minecraft server plugins with one click, which is suitable for Bukkit, Spigot, Paper, Purpur, Arclight, CatServer, Magma, Mohist and other Bukkit-based servers.
+
 BukkitGPT is an open source, free, AI-powered Minecraft Bukkit plugin generator. It was developed for minecraft server owners who are not technically savvy but need to implement all kinds of customized small plugins. From code to build, debug, all done by gpt.
+
+## Advertisement
+Contact: [admin@baimoqilin.top](mailto:admin@baimoqilin.top)
+Advertising revenue will be split among contributors in proportion to their contribution.
 
 ## Features
 - [x] Core: Automatically generate code
 - [x] Core: Automatically fix bugs
-- [ ] Core: Automatically test plugins (Finish on February 8 at the latest)
+- [ ] Core: Automatically test plugins ~~(Finish on February 8 at the latest)~~ *The development program has been delayed for some reason.*
 - [x] Core: AI `Better Description`
 - [ ] Panel: Projects management (Finish on February 20 at the latest)
 - [ ] Panel: GUI (Finish on February 20 at the latest)
@@ -46,6 +52,7 @@ The program parses this prompt, copies the entire `projects/template` folder and
 
 ## Requirements
 You can use BukkitGPT on any computer with [Java](https://www.azul.com/downloads/), [Maven](https://maven.apache.org/), [Python 3+](https://www.python.org/).  
+
 And you need to install these packages:
 ```
 pip install openai
@@ -60,12 +67,17 @@ pip install pathlib
 4. Copy your plugin from `projects/<artifact_name>/target/<artifact_name>-<version>.jar` to your server `plugins/` folder.
 5. Restart your server and enjoy your AI-powered-plugin.
 
+## Troubleshooting
+
+### The POM for org.spigotmc:spigot:jar:1.13.2-R0.1-SNAPSHOT is missing
+Solution: [Download BuildTools](https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar), place it in an empty folder, double-click it, choose "1.13.2" in `Settings/Select Version`, click `Compile` in the bottom right corner and let it finish. And then go to your BukkitGPT folder, in `projects/<artifact_name_of_your_plugin>`, double-click `build.bat`. You'll find your plugin in `projects/<artifact_name_of_your_plugin>/target` folder.
+
 ## Contributing
-If you like the project, you can give the project a start, or [submit an issue](https://github.com/Zhou-Shilin/BukkitGPT/issues) or [pull request](https://github.com/Zhou-Shilin/BukkitGPT/pulls) to help make it better.
+If you like the project, you can give the project a star, or [submit an issue](https://github.com/Zhou-Shilin/BukkitGPT/issues) or [pull request](https://github.com/Zhou-Shilin/BukkitGPT/pulls) to help make it better.
 
 ## License
 ```
-Copyright [2024] [BukkitGPT, BaimoQilin]
+Copyright [2024] [BukkitGPT Team]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
