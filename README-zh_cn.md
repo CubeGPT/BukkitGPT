@@ -22,18 +22,25 @@ BukkitGPT是一个开源、免费、由ChatGPT4驱动的Minecraft Bukkit插件�
 - i9 10900K 8C10G ***年付低至43.2r每月*** (月付86.4r每月)
 - i9 13900K 8C10G ***年付低至62.1r每月*** (月付124r每月)
 
-[官网购买地址 优惠码BGPT](https://vat.yunqiaold.com/index.php?rp=/store/mc)
-***购买时使用优惠码:`BGPT`***
-获得10%off优惠
-支持无条件按剩余时间比例退款
+[官网购买地址 优惠码BGPT](https://vat.yunqiaold.com/index.php?rp=/store/mc)  
+***购买时使用优惠码:`BGPT`***  
+获得10%off优惠  
+支持无条件按剩余时间比例退款  
 
 ## 功能
-- [x] 核心：自动生成代码
-- [x] 核心：自动修复Bug
-- [ ] 核心：自动测试插件 ~~(最晚于2月8日完成)~~ 由于被爸妈抓去走亲戚，推迟开发计划TAT
-- [x] 核心：AI优化prompt
-- [ ] 面板：项目管理（最迟于2月20日完成）
-- [ ] 面板：GUI（最迟在2月20日完成）
+
+### 核心
+- [x] 自动生成代码
+- [x] 自动修复Bug
+- [ ] ~~自动测试插件~~ 经过长期思考，由于用处不高，这个功能已被移除开发计划。
+- [x] AI `Better Description`
+
+### GUI
+- [ ] 项目创建
+- [ ] 项目管理
+- [ ] 设置
+
+![demo](https://cdn.jsdelivr.net/gh/Zhou-Shilin/picx-images-hosting@master/20240210/bukkitgpt-demo.jpeg)
 
 ## 原理
 当用户键入插件描述时，程序让`gpt-3.5-turbo`优化prompt，然后将优化后的prompt给`gpt-4`。`gpt-4`将以json格式返回编写的代码，举个栗子：
@@ -62,7 +69,7 @@ BukkitGPT是一个开源、免费、由ChatGPT4驱动的Minecraft Bukkit插件�
 程序解析返回的json，复制整个“projects/template”文件夹并将其命名为“artifact_name”，并将json中的代码放入每个文件中。最后，程序使用maven构建插件。
 
 ## 运行环境
-您可以在任何带有[Java]（https://www.azul.com/downloads/）、[Maven]（https://maven.apache.org/）、[Python 3+]（https://www.python.org/的计算机上使用BukkitGPT。
+您可以在任何带有[Java](https://www.azul.com/downloads/)、[Maven](https://maven.apache.org/)、[Python 3+](https://www.python.org/)的计算机上使用BukkitGPT。
 
 您需要安装这些Python轮子：
 ```

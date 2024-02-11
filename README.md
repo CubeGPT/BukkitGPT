@@ -14,16 +14,23 @@
 BukkitGPT is an open source, free, AI-powered Minecraft Bukkit plugin generator. It was developed for minecraft server owners who are not technically savvy but need to implement all kinds of customized small plugins. From code to build, debug, all done by gpt.
 
 ## Advertisement
-Contact: [admin@baimoqilin.top](mailto:admin@baimoqilin.top)
+Contact: [admin@baimoqilin.top](mailto:admin@baimoqilin.top)  
 Advertising revenue will be split among contributors in proportion to their contribution.
 
 ## Features
-- [x] Core: Automatically generate code
-- [x] Core: Automatically fix bugs
-- [ ] Core: Automatically test plugins ~~(Finish on February 8 at the latest)~~ *The development program has been delayed for some reason.*
-- [x] Core: AI `Better Description`
-- [ ] Panel: Projects management (Finish on February 20 at the latest)
-- [ ] Panel: GUI (Finish on February 20 at the latest)
+
+### Core
+- [x] Automatically generate code
+- [x] Automatically fix bugs
+- [ ] ~~Automatically test plugins~~ After long reflection, this feature has been removed from the development program due to its low usefulness.
+- [x] AI `Better Description`
+
+### GUI
+- [ ] Creating projects
+- [ ] Projects management
+- [ ] Settings
+
+![demo](https://cdn.jsdelivr.net/gh/Zhou-Shilin/picx-images-hosting@master/20240210/bukkitgpt-demo.jpeg)
 
 ## How it works
 When the user types the plugin description, the program lets `gpt-3.5-turbo` optimize the prompt, and then gives the optimized prompt to `gpt-4`. `gpt-4` will return it in json format, for example:
