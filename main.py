@@ -12,19 +12,25 @@ from log_writer import logger
 import config
 import build
 
-version = "Alpha 0.2"
+def initialize():
+    version = "Alpha 0.2"
 
-logger(f"Launch. Software version {version}, platform {sys.platform}")
-logger(f"""Configs: 
-BASE_URL = {config.BASE_URL}
-CODING_MODEL = {config.CODING_MODEL}
-BETTER_DESCRIPTION_MODEL = {config.BETTER_DESCRIPTION_MODEL}
-ENABLE_BETTER_DESCRIPTION = {config.ENABLE_BETTER_DESCRIPTION}
-""")
+    logger(f"Launch. Software version {version}, platform {sys.platform}")
+    logger(f"""Configs: 
+    BASE_URL = {config.BASE_URL}
+    CODING_MODEL = {config.CODING_MODEL}
+    BETTER_DESCRIPTION_MODEL = {config.BETTER_DESCRIPTION_MODEL}
+    ENABLE_BETTER_DESCRIPTION = {config.ENABLE_BETTER_DESCRIPTION}
+    """)
 
-# Initialize the OpenAI client
-client = OpenAI(api_key=config.API_KEY, base_url=config.BASE_URL)
-logger("Initialized the OpenAI client.")
+    # Initialize the OpenAI client
+    client = OpenAI(api_key=config.API_KEY, base_url=config.BASE_URL)
+    logger("Initialized the OpenAI client.")
+    
+    if sys.platform.startswith('linux') or sys.platform.startswith('daiwin'):
+        clear_command = "clear"
+    elif sys.platform.startswith('win'):
+        clear_command = "cls"
 
 def askgpt(system_prompt, user_prompt, model_name):
     """
@@ -107,11 +113,6 @@ def package_id_to_list(package_id):
     package_list = package_id.split('.')
     return package_list
 
-if sys.platform.startswith('linux') or sys.platform.startswith('daiwin'):
-    clear_command = "clear"
-elif sys.platform.startswith('win'):
-    clear_command = "cls"
-
 def generate_plugin():
     # Get the codes
     SYS_GEN = config.SYS_GEN.replace("%WORKING_PATH%", working_path)
@@ -152,6 +153,8 @@ def make_response(build_result):
         logger(f"Plugin is ready.")
         print(f"Congratulations! Your plugin is ready. Now add the plugin to the projects/{artifact_name}/target directory and just find the jar file and put it in your server's plugins folder.")
         print("BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, you can sponsor this project: https://www.buymeacoffee.com/baimoqilin")
+
+initialize()
 
 print("Welcome to BukkitGPT, an open source, free, AI-powered Minecraft Bukkit plugin generator developed by BaimoQilin (@Zhou-Shilin). Don't forget to check out the config.py configuration file, you need to fill in the OpenAI API key.")
 
