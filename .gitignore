@@ -4,3 +4,5 @@ projects/*
 logs/*
 test.py
 __pycache__
+
+config.py
