@@ -1,11 +1,8 @@
-# Import necessary libraries
 from openai import OpenAI
 import sys
 import platform
-import pathlib
 import os
 import shutil
-import re
 import json
 
 from log_writer import logger
@@ -23,15 +20,6 @@ def initialize():
     ENABLE_BETTER_DESCRIPTION = {config.ENABLE_BETTER_DESCRIPTION}
     """)
 
-    # Initialize the OpenAI client
-    client = OpenAI(api_key=config.API_KEY, base_url=config.BASE_URL)
-    logger("Initialized the OpenAI client.")
-    
-    if sys.platform.startswith('linux') or sys.platform.startswith('daiwin'):
-        clear_command = "clear"
-    elif sys.platform.startswith('win'):
-        clear_command = "cls"
-
 def askgpt(system_prompt, user_prompt, model_name):
     """
     Interacts with ChatGPT using the specified prompts.
@@ -43,14 +31,17 @@ def askgpt(system_prompt, user_prompt, model_name):
     Returns:
         str: The response from ChatGPT.
     """
+    client = OpenAI(api_key=config.API_KEY, base_url=config.BASE_URL)
+    logger("Initialized the OpenAI client.")
+
     # Define the messages for the conversation
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt}
     ]
 
-    print("system: " + system_prompt)
-    print("user: " + user_prompt)
+    logger(f"askgpt: system {system_prompt}")
+    logger(f"askgpt: user {user_prompt}")
 
     # Create a chat completion
     response = client.chat.completions.create(
@@ -113,7 +104,7 @@ def package_id_to_list(package_id):
     package_list = package_id.split('.')
     return package_list
 
-def generate_plugin():
+def generate_plugin(working_path, description, package_id, artifact_name, package_list):
     # Get the codes
     SYS_GEN = config.SYS_GEN.replace("%WORKING_PATH%", working_path)
     USR_GEN = config.USR_GEN.replace("%DESCRIPTION%", description).replace("%PACKAGE_ID%", package_id).replace("%ARTIFACT_NAME%", artifact_name)
@@ -125,60 +116,13 @@ def generate_plugin():
         print("Bad code, regenerating...")
         logger(f"Bad code, regenerating...")
         code_reponse = askgpt(SYS_GEN, USR_GEN, CODING_MODEL)
-    os.system(clear_command)
 
     print("[2/3] Creating project and copying the codes...")
     text_to_action(code_reponse, artifact_name, package_list)
-    os.system(clear_command)
 
     print("[3/3] Building project.")
     print("The first build can take 5 minutes or even more, as Maven needs to download a lot of files. This depends somewhat on your network. You're better off doing something else during this long wait.")
     project_path = "projects/" + artifact_name
     build_result = build.build_project(project_path)
 
-    make_response(build_result)
-
-def make_response(build_result):
-    if "Error:" in build_result:
-        print("This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code.")
-        logger(f"Build failed. {build_result}")
-        print(build_result)
-        regenerate = input("Regenerate codes? (Y/n) ")
-        if regenerate == "n":
-            pass
-        else:
-            generate_plugin()
-    else:
-        print(build_result)
-        logger(f"Plugin is ready.")
-        print(f"Congratulations! Your plugin is ready. Now add the plugin to the projects/{artifact_name}/target directory and just find the jar file and put it in your server's plugins folder.")
-        print("BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, you can sponsor this project: https://www.buymeacoffee.com/baimoqilin")
-
-initialize()
-
-print("Welcome to BukkitGPT, an open source, free, AI-powered Minecraft Bukkit plugin generator developed by BaimoQilin (@Zhou-Shilin). Don't forget to check out the config.py configuration file, you need to fill in the OpenAI API key.")
-
-print("\n")
-print("[1/3] Let's start by nameing your plugin! The name should be in English and without spaces.")
-artifact_name = input("(artifact_name) ")
-logger(f"artifact_name = {artifact_name}")
-os.system(clear_command)
-print("[2/3] What features do you want your plugin to have? Please describe as clearly and thoroughly as possible. For example, does it require any commands to be registered? If you think you're inexperienced in this aspect of prompt engineering, we recommend you turn on the better description option in config.py.")
-description = input("(description) ")
-logger(f"description = {description}")
-os.system(clear_command)
-print("[3/3] What is the package id of your plugin? If you have a domain name like baimoqilin.top, you should write the domain name backwards and add the name of your plugin at the end (no spaces), for example if my plugin is called demo, then you should fill in top.baimoqilin.demo.")
-package_id = input("(package_id) ")
-logger(f"package_id = {package_id}")
-os.system(clear_command)
-
-working_path = package_to_path(package_id)
-package_list = package_id_to_list(package_id)
-
-if config.ENABLE_BETTER_DESCRIPTION == True:
-    print("[0/3] Generating better description")
-    description = askgpt(config.SYS_BETTER_DESCRIPTION, config.USR_BETTER_DESCRIPTION, config.BETTER_DESCRIPTION_MODEL)
-    logger(f"better description: {description}")
-    os.system(clear_command)
-
-generate_plugin()
+    return build_result
