@@ -16,13 +16,15 @@ def make_response(build_result):
     else:
         print("Build failed. This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code.")
         logger(f"Build failed. {build_result}")
-        print(build_result)
-        regenerate = input("Regenerate codes? (Y/n) ")
-        if regenerate == "n":
-            pass
+        if "The POM for org.spigotmc:spigot-api:jar:1.13.2-R0.1-SNAPSHOT is missing, no dependency information available" in build_result:
+            print("Missing spigotmc dependency (Known Issue)! But there's a solution, please follow the instructions in README.md/Troubleshooting ")
         else:
-            build_result = core.generate_plugin(working_path, description, package_id, artifact_name)
-            core.make_response(build_result)
+            regenerate = input("Regenerate codes? (Y/n) ")
+            if regenerate == "n":
+                pass
+            else:
+                build_result = core.generate_plugin(working_path, description, package_id, artifact_name)
+                core.make_response(build_result)
 
 core.initialize()
 
