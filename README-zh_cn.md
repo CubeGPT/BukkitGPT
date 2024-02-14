@@ -85,6 +85,11 @@ pip install pathlib
 4. 将您的插件从`projects/<artifact_name>/target/<artifact_name>-<version>.jar`复制到您的服务器`plugins/`文件夹。
 5. 重新启动服务器，享受由GPT4驱动的插件。
 
+## Troubleshooting
+
+### The POM for org.spigotmc:spigot:jar:1.13.2-R0.1-SNAPSHOT
+[下载BuildTools](https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar)到一个空文件夹中，双击运行，在设置/选择版本中选择"1.13.2"，点击右下角的 `Compile`并等待运行结束（中国大陆地区因下载速度较慢，请自行解决）。然后到你的BukkitGPT文件夹, 在`projects/插件名称`中双击`build.bat`。你的插件会在`projects/插件名称/target`文件夹。
+
 ## 贡献
 如果你喜欢这个项目，你可以给这个项目点一个star，或者[提交Issue](https://github.com/Zhou-Shilin/BukkitGPT/issues)、[Pull request](https://github.com/Zhou-Shilin/BukkitGPT/pulls)来帮助它变得更好！
 
