@@ -26,11 +26,13 @@ Advertising revenue will be split among contributors in proportion to their cont
 - [x] AI `Better Description`
 
 ### GUI
+(Developing, finish simple UI until late March)
 - [ ] Creating projects
 - [ ] Projects management
 - [ ] Settings
 
-![demo](https://cdn.jsdelivr.net/gh/Zhou-Shilin/picx-images-hosting@master/20240210/bukkitgpt-demo.jpeg)
+Design (Not the final result):
+![design](https://cdn.jsdelivr.net/gh/Zhou-Shilin/picx-images-hosting@master/20240210/bukkitgpt-demo.jpeg)
 
 ## How it works
 When the user types the plugin description, the program lets `gpt-3.5-turbo` optimize the prompt, and then gives the optimized prompt to `gpt-4`. `gpt-4` will return it in json format, for example:
