@@ -81,7 +81,7 @@ pip install pathlib
 ## 快速开始
 1. 从[Releases页面](https://github.com/Zhou-Shilin/BukkitGPT/releases)下载`Source Code.zip`并解压缩。
 2. 编辑`config.py`，填写你的OpenAI ApiKey。如果你不知道怎么做，请记住[谷歌](https://www.google.com/)和[Bing](https://www.bing.com/)永远是你最好的朋友。
-3. 运行`main.py` (bash `python main.py`)，按照提示输入插件名称、描述和Package ID。
+3. 运行`console.py` (bash `python console.py`)，按照提示输入插件名称、描述和Package ID。
 4. 将您的插件从`projects/<artifact_name>/target/<artifact_name>-<version>.jar`复制到您的服务器`plugins/`文件夹。
 5. 重新启动服务器，享受由GPT4驱动的插件。
 

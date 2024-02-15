@@ -34,6 +34,11 @@ Advertising revenue will be split among contributors in proportion to their cont
 Design (Not the final result):
 ![design](https://cdn.jsdelivr.net/gh/Zhou-Shilin/picx-images-hosting@master/20240210/bukkitgpt-demo.jpeg)
 
+### WebApp
+- [ ] Creating projects
+- [ ] Projects management
+- [ ] Settings
+
 ## How it works
 When the user types the plugin description, the program lets `gpt-3.5-turbo` optimize the prompt, and then gives the optimized prompt to `gpt-4`. `gpt-4` will return it in json format, for example:
 ```
@@ -73,7 +78,7 @@ pip install pathlib
 ## Quick Start
 1. Download `Source Code.zip` from [the release page]([https:///](https://github.com/Zhou-Shilin/BukkitGPT/releases)) and unzip it.
 2. Edit `config.py`, fill in your OpenAI Apikey. If you don't know how, remember that [Google](https://www.google.com/) and [Bing](https://www.bing.com/) are always your best friends.
-3. Run `main.py` (bash `python main.py`), enter the artifact name & description & package id as instructed to generate your plugin.
+3. Run `console.py` (bash `python console.py`), enter the artifact name & description & package id as instructed to generate your plugin.
 4. Copy your plugin from `projects/<artifact_name>/target/<artifact_name>-<version>.jar` to your server `plugins/` folder.
 5. Restart your server and enjoy your AI-powered-plugin.
 
