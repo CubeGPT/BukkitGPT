@@ -22,10 +22,7 @@ def build_project(projectPath):
         # Execute Maven build command
         result = subprocess.run("mvn -V -B clean package --file pom.xml", shell=True, capture_output=True, text=True)
 
-        if "BUILD SUCCESS" in result.stdout:
-            return "Success"
-        else:
-            return result.stdout
+        return result.stdout
         
     except Exception as e:
         return f"Error: {str(e)}"
