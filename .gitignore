@@ -2,6 +2,7 @@ projects/*
 !projects/template/
 
 logs/*
+!logs/README.txt
 test.py
 __pycache__
 
