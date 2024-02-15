@@ -8,6 +8,21 @@
 <br/>
 </div>
 
+## Table of Contents
+- [Introduction](https://github.com/BukkitGPT/BukkitGPT#introduction)
+- [Advertisement](https://github.com/BukkitGPT/BukkitGPT#advertisement)
+- [Features](https://github.com/BukkitGPT/BukkitGPT#features)
+  - [Core](https://github.com/BukkitGPT/BukkitGPT#core)
+  - [GUI](https://github.com/BukkitGPT/BukkitGPT#gui)
+  - [WebApp](https://github.com/BukkitGPT/BukkitGPT#webapp)
+- [How it works](https://github.com/BukkitGPT/BukkitGPT#how-it-works)
+- [Requirements](https://github.com/BukkitGPT/BukkitGPT#requirements)
+- [Quick Start](https://github.com/BukkitGPT/BukkitGPT#quick-start)
+- [Troubleshooting](https://github.com/BukkitGPT/BukkitGPT#troubleshooting)
+  - [The POM for org.spigotmc:spigot:jar:1.13.2-R0.1-SNAPSHOT is missing](https://github.com/BukkitGPT/BukkitGPT#the-pom-for-orgspigotmcspigotjar1132-r01-snapshot-is-missing)
+- [Contributing](https://github.com/BukkitGPT/BukkitGPT#contributing)
+- [Lisence](https://github.com/BukkitGPT/BukkitGPT#lisence)
+
 ## Introduction
 > Give GPT your idea, AI generates customized Minecraft server plugins with one click, which is suitable for Bukkit, Spigot, Paper, Purpur, Arclight, CatServer, Magma, Mohist and other Bukkit-based servers.
 
@@ -39,6 +54,11 @@ Design (Not the final result):
 - [ ] Projects management
 - [ ] Settings
 
+### Other projects
+- [ ] DatapackGPT
+- [ ] ForgeGPT
+- [ ] FabricGPT
+
 ## How it works
 When the user types the plugin description, the program lets `gpt-3.5-turbo` optimize the prompt, and then gives the optimized prompt to `gpt-4`. `gpt-4` will return it in json format, for example:
 ```
@@ -68,19 +88,30 @@ The program parses this prompt, copies the entire `projects/template` folder and
 ## Requirements
 You can use BukkitGPT on any computer with [Java](https://www.azul.com/downloads/), [Maven](https://maven.apache.org/), [Python 3+](https://www.python.org/).  
 
-And you need to install these packages:
+And you need to install this package:
 ```
 pip install openai
-pip install re
-pip install pathlib
 ```
 
 ## Quick Start
+
+### Using Python (Any Platform)
+*(Make sure you have the [Python](https://www.python.org) environment installed on your computer)*
 1. Download `Source Code.zip` from [the release page]([https:///](https://github.com/Zhou-Shilin/BukkitGPT/releases)) and unzip it.
 2. Edit `config.py`, fill in your OpenAI Apikey. If you don't know how, remember that [Google](https://www.google.com/) and [Bing](https://www.bing.com/) are always your best friends.
 3. Run `console.py` (bash `python console.py`), enter the artifact name & description & package id as instructed to generate your plugin.
 4. Copy your plugin from `projects/<artifact_name>/target/<artifact_name>-<version>.jar` to your server `plugins/` folder.
 5. Restart your server and enjoy your AI-powered-plugin.
+
+### Using exe (Windows)
+> [!WARNING]
+> Not recommended.
+> Not every build is tested, and there can be all sorts of weird problems.
+
+1. Download `build-exe.zip` from [the actions page](https://github.com/BukkitGPT/BukkitGPT/actions) and unzip it.
+2. Run the exe file, enter the artifact name & description & package id as instructed to generate your plugin.
+3. Copy your plugin from `projects/<artifact_name>/target/<artifact_name>-<version>.jar` to your server `plugins/` folder.
+4. Restart your server and enjoy your AI-powered-plugin.
 
 ## Troubleshooting
 
