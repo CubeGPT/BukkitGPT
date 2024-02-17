@@ -7,13 +7,16 @@
 <br/>
 </div>
 
+> [!WARNING]
+> 中文README并不经常更新，请以英文README为准。欢迎提交PR贡献翻译！
+  
+> [!NOTE]
+> BukkitGPT Team正在招贤纳士! 欢迎开发者和README翻译人员加入我们！
+
 ## 介绍
 > 一句话，AI一键生成定制Minecraft服务器插件，适用于Bukkit, Spigot, Paper, Purpur, Arclight, CatServer, Magma, Mohist等任意基于Bukkit的服务端。
 
 BukkitGPT是一个开源、免费、由ChatGPT4驱动的Minecraft Bukkit插件生成器。它专为小白腐竹开发，用于定制各类小型插件。从代码到构建、调试、修Bug，全部由AI完成。
-
-> [!NOTE]
-> BukkitGPT Team正在招贤纳士! 欢迎开发者和README翻译人员加入我们！
 
 ## 推广
 
