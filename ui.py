@@ -4,7 +4,9 @@ from tkinter import messagebox
 import sv_ttk
 
 import os
+import json
 
+from log_writer import logger
 import core
 
 # Define global variables
@@ -15,10 +17,20 @@ package_id = None
 
 # Define BuildProject function
 def BuildProject():
-    # Uncompleted
-    # main.generate_plugin()
-    message = "some \n result"
-    return message
+    with open("info.bukkitgpt", "w") as f:
+        f.write("{\n")
+        f.write(f"""\t\"artifact_name\": \"{artifact_name}\",
+    \t"description\": \"{description}\",
+    \t"package_id\": \"{package_id}\"""")
+        f.write("\n}")
+    working_path = core.package_to_path(package_id)
+    package_list = core.package_id_to_list(package_id)
+    result = core.generate_plugin(working_path, description, package_id, artifact_name, package_list)
+    logger(f"BuildProject: {result}")
+    if "BUILD SUCCESS" in result:
+        return f"Congratulations! Your plugin is ready. Now add the plugin to the projects/{artifact_name}/target directory and just find the jar file and put it in your server's plugins folder. BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, please donate this project: https://www.buymeacoffee.com/baimoqilin"
+    else:
+        return "Build failed. This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code."
 
 def DeleteProject():
     # Uncompleted

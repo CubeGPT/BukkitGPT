@@ -9,10 +9,9 @@ import config
 
 def make_response(build_result):
     if "BUILD SUCCESS" in build_result:
-        print(build_result)
-        logger(f"Plugin is ready.")
+        logger(f"Plugin is ready. {build_result}")
         print(f"Congratulations! Your plugin is ready. Now add the plugin to the projects/{artifact_name}/target directory and just find the jar file and put it in your server's plugins folder.")
-        print("BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, you can sponsor this project: https://www.buymeacoffee.com/baimoqilin")
+        print("BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, please donate this project: https://www.buymeacoffee.com/baimoqilin")
     else:
         print("Build failed. This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code.")
         logger(f"Build failed. {build_result}")
