@@ -105,6 +105,13 @@ def package_id_to_list(package_id):
     return package_list
 
 def generate_plugin(working_path, description, package_id, artifact_name, package_list):
+    # Edit info.bukkitgpt
+    with open("info.bukkitgpt", "w") as f:
+        f.write("{\n")
+        f.write(f"""\t\"artifact_name\": \"{artifact_name}\",
+\t"description\": \"{description}\",
+\t"package_id\": \"{package_id}\"""")
+        f.write("\n}")
     # Get the codes
     SYS_GEN = config.SYS_GEN.replace("%WORKING_PATH%", working_path)
     USR_GEN = config.USR_GEN.replace("%DESCRIPTION%", description).replace("%PACKAGE_ID%", package_id).replace("%ARTIFACT_NAME%", artifact_name)

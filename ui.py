@@ -5,6 +5,7 @@ import sv_ttk
 
 import os
 import json
+import shutil
 
 from log_writer import logger
 import core
@@ -17,12 +18,6 @@ package_id = None
 
 # Define BuildProject function
 def BuildProject():
-    with open("info.bukkitgpt", "w") as f:
-        f.write("{\n")
-        f.write(f"""\t\"artifact_name\": \"{artifact_name}\",
-    \t"description\": \"{description}\",
-    \t"package_id\": \"{package_id}\"""")
-        f.write("\n}")
     working_path = core.package_to_path(package_id)
     package_list = core.package_id_to_list(package_id)
     result = core.generate_plugin(working_path, description, package_id, artifact_name, package_list)
@@ -32,9 +27,6 @@ def BuildProject():
     else:
         return "Build failed. This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code."
 
-def DeleteProject():
-    # Uncompleted
-    pass
 
 # Define HomePage class
 class HomePage(ttk.Frame):
@@ -63,19 +55,19 @@ class ProjectPage(ttk.Frame):  # Change tk.Frame to ttk.Frame
         self.title_label.pack(pady=10)
         self.text1 = ttk.Label(self, text="artifact_name")
         self.text1.pack(anchor="w")
-        self.text2 = ttk.Label(self, text="sometext here")
+        self.text2 = ttk.Label(self, text="Let's start by nameing your plugin! The name should be in English and without spaces.")
         self.text2.pack(anchor="w")
         self.input1 = ttk.Entry(self)
         self.input1.pack(anchor="w")
         self.text3 = ttk.Label(self, text="description")
         self.text3.pack(anchor="w")
-        self.text4 = ttk.Label(self, text="sometext here")
+        self.text4 = ttk.Label(self, text="What features do you want your plugin to have? Please describe as clearly and thoroughly as possible. For example, does it require any commands to be registered? If you think you're inexperienced in this aspect of prompt engineering, we recommend you turn on the better description option in Settings.")
         self.text4.pack(anchor="w")
         self.input2 = ttk.Entry(self)
-        self.input2.pack(anchor="w", width=30, lenth=30)
+        self.input2.pack(anchor="w")
         self.text5 = ttk.Label(self, text="package_id")
         self.text5.pack(anchor="w")
-        self.text6 = ttk.Label(self, text="sometext here")
+        self.text6 = ttk.Label(self, text="What is the package id of your plugin? If you have a domain name like baimoqilin.top, you should write the domain name backwards and add the name of your plugin at the end (no spaces), for example if my plugin is called demo, then you should fill in top.baimoqilin.demo.")
         self.text6.pack(anchor="w")
         self.input3 = ttk.Entry(self)
         self.input3.pack(anchor="w")
@@ -96,14 +88,17 @@ class ProjectPage(ttk.Frame):  # Change tk.Frame to ttk.Frame
 
     def delete_project(self):
         global CurrentProject
-        DeleteProject()
+        try:
+            shutil.rmtree(f"projects/{artifact_name}")
+        except:
+            pass
         self.controller.show_frame(HomePage)
 
     def update_title(self):
         self.title_label.config(text=CurrentProject)
 
 # Define SettingsPage class
-class SettingsPage(ttk.Frame):  # Change tk.Frame to ttk.Frame
+class SettingsPage(ttk.Frame):
     def __init__(self, parent, controller):
         ttk.Frame.__init__(self, parent)
         self.controller = controller
@@ -189,5 +184,6 @@ class App(tk.Tk):
 # Create an app object
 app = App()
 # Start the main loop
-app.after(1, sv_ttk.use_light_theme)
+# app.after(1, sv_ttk.use_light_theme)
+sv_ttk.set_theme("light")
 app.mainloop()
