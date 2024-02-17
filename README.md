@@ -8,10 +8,13 @@
 <br/>
 </div>
 
+> [!NOTE]
+> Developers and README translators are welcome to join the BukkitGPT Team!
+
 ## Table of Contents
 - [Introduction](https://github.com/BukkitGPT/BukkitGPT#introduction)
 - [Advertisement](https://github.com/BukkitGPT/BukkitGPT#advertisement)
-- [Features](https://github.com/BukkitGPT/BukkitGPT#features)
+- [Features and Plans](https://github.com/BukkitGPT/BukkitGPT#features)
   - [Core](https://github.com/BukkitGPT/BukkitGPT#core)
   - [GUI](https://github.com/BukkitGPT/BukkitGPT#gui)
   - [WebApp](https://github.com/BukkitGPT/BukkitGPT#webapp)
@@ -32,7 +35,7 @@ BukkitGPT is an open source, free, AI-powered Minecraft Bukkit plugin generator.
 Contact: [admin@baimoqilin.top](mailto:admin@baimoqilin.top)  
 Advertising revenue will be split among contributors in proportion to their contribution.
 
-## Features
+## Features and Plans
 
 ### Core
 - [x] Automatically generate code
@@ -42,8 +45,8 @@ Advertising revenue will be split among contributors in proportion to their cont
 
 ### GUI
 (Developing, finish simple UI until late March)
-- [ ] Creating projects
-- [ ] Projects management
+- [x] Creating projects (Unreleased)
+- [x] Projects management (Unreleased)
 - [ ] Settings
 
 Design (Not the final result):
@@ -58,6 +61,7 @@ Design (Not the final result):
 - [ ] DatapackGPT
 - [ ] ForgeGPT
 - [ ] FabricGPT
+- [ ] BukkitGPT++ (Generate ANYTHING) (Lab)
 
 ## How it works
 When the user types the plugin description, the program lets `gpt-3.5-turbo` optimize the prompt, and then gives the optimized prompt to `gpt-4`. `gpt-4` will return it in json format, for example:
@@ -95,23 +99,24 @@ pip install openai
 
 ## Quick Start
 
-### Using Python (Any Platform)
 *(Make sure you have the [Python](https://www.python.org) environment installed on your computer)*
+
+### Console
 1. Download `Source Code.zip` from [the release page]([https:///](https://github.com/Zhou-Shilin/BukkitGPT/releases)) and unzip it.
 2. Edit `config.py`, fill in your OpenAI Apikey. If you don't know how, remember that [Google](https://www.google.com/) and [Bing](https://www.bing.com/) are always your best friends.
 3. Run `console.py` (bash `python console.py`), enter the artifact name & description & package id as instructed to generate your plugin.
 4. Copy your plugin from `projects/<artifact_name>/target/<artifact_name>-<version>.jar` to your server `plugins/` folder.
 5. Restart your server and enjoy your AI-powered-plugin.
 
-### Using exe (Windows)
+### UI
 > [!WARNING]
-> Not recommended.
-> Not every build is tested, and there can be all sorts of weird problems.
+> Uncompleted.
 
-1. Download `build-exe.zip` from [the actions page](https://github.com/BukkitGPT/BukkitGPT/actions) and unzip it.
-2. Run the exe file, enter the artifact name & description & package id as instructed to generate your plugin.
-3. Copy your plugin from `projects/<artifact_name>/target/<artifact_name>-<version>.jar` to your server `plugins/` folder.
-4. Restart your server and enjoy your AI-powered-plugin.
+1. Download `Source Code.zip` from [the release page]([https:///](https://github.com/Zhou-Shilin/BukkitGPT/releases)) and unzip it.
+2. Run `ui.py` (bash `python console.py`), go to Settings page and fill in your apikey. 
+3. Enter the artifact name & description & package id as instructed to generate your plugin.
+4. Copy your plugin from `projects/<artifact_name>/target/<artifact_name>-<version>.jar` to your server `plugins/` folder.
+5. Restart your server and enjoy your AI-powered-plugin.
 
 ## Troubleshooting
 

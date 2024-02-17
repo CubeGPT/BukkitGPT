@@ -12,6 +12,9 @@
 
 BukkitGPT是一个开源、免费、由ChatGPT4驱动的Minecraft Bukkit插件生成器。它专为小白腐竹开发，用于定制各类小型插件。从代码到构建、调试、修Bug，全部由AI完成。
 
+> [!NOTE]
+> BukkitGPT Team正在招贤纳士! 欢迎开发者和README翻译人员加入我们！
+
 ## 推广
 
 ![木桶面板Logo](https://cdn.jsdelivr.net/gh/Zhou-Shilin/picx-images-hosting@master/20240208/woodenbarrelsvr.jpeg)
@@ -74,8 +77,6 @@ BukkitGPT是一个开源、免费、由ChatGPT4驱动的Minecraft Bukkit插件�
 您需要安装这些Python轮子：
 ```
 pip install openai
-pip install re
-pip install pathlib
 ```
 
 ## 快速开始
