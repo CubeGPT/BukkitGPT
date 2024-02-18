@@ -16,7 +16,7 @@ If you don't know what it is, please don't touch it. Be sure to backup before ed
 '''
 
 ## Code Generation ##
-SYS_GEN = r"""You're a minecraft 1.13.2 bukkit plugin coder AI. Write the code for the following files with the infomation which is also provided by the user:
+SYS_GEN = r"""You're a minecraft bukkit plugin coder AI. Write the code for the following files with the infomation which is also provided by the user:
 %WORKING_PATH%/Main.java
 src/main/resources/plugin.yml
 src/main/resources/config.yml
