@@ -21,6 +21,8 @@
 - [How it works](https://github.com/BukkitGPT/BukkitGPT#how-it-works)
 - [Requirements](https://github.com/BukkitGPT/BukkitGPT#requirements)
 - [Quick Start](https://github.com/BukkitGPT/BukkitGPT#quick-start)
+  - [Console](https://github.com/BukkitGPT/BukkitGPT#console)
+  - [UI](https://github.com/BukkitGPT/BukkitGPT#ui)
 - [Troubleshooting](https://github.com/BukkitGPT/BukkitGPT#troubleshooting)
   - [The POM for org.spigotmc:spigot:jar:1.13.2-R0.1-SNAPSHOT is missing](https://github.com/BukkitGPT/BukkitGPT#the-pom-for-orgspigotmcspigotjar1132-r01-snapshot-is-missing)
 - [Contributing](https://github.com/BukkitGPT/BukkitGPT#contributing)
@@ -44,13 +46,10 @@ Advertising revenue will be split among contributors in proportion to their cont
 - [x] AI `Better Description`
 
 ### GUI
-(Developing, finish simple UI until late March)
-- [x] Creating projects (Unreleased)
-- [x] Projects management (Unreleased)
-- [ ] Settings
-
-Design (Not the final result):
-![design](https://cdn.jsdelivr.net/gh/Zhou-Shilin/picx-images-hosting@master/20240210/bukkitgpt-demo.jpeg)
+~~(Developing, finish simple UI until late March)~~ Finished ahead of schedule!
+- [x] Creating projects
+- [x] Projects management
+- [x] Settings
 
 ### WebApp
 - [ ] Creating projects
@@ -109,8 +108,6 @@ pip install openai
 5. Restart your server and enjoy your AI-powered-plugin.
 
 ### UI
-> [!WARNING]
-> Uncompleted.
 
 1. Download `Source Code.zip` from [the release page]([https:///](https://github.com/Zhou-Shilin/BukkitGPT/releases)) and unzip it.
 2. Run `ui.py` (bash `python console.py`), go to Settings page and fill in your apikey. 
