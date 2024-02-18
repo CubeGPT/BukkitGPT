@@ -6,9 +6,12 @@ import sv_ttk
 import os
 import json
 import shutil
+import re
+import sys
 
 from log_writer import logger
 import core
+import config
 
 # Define global variables
 CurrentProject = None
@@ -43,14 +46,23 @@ class HomePage(ttk.Frame):
 
     def create_project(self):
         global CurrentProject
-        CurrentProject = "New"
-        self.controller.show_frame(ProjectPage)
+        if config.API_KEY == "":
+            messagebox.showwarning("Warning", "Please enter an API_KEY!")
+        else:
+            CurrentProject = "New"
+            logger("HomePage: New project")
+            self.controller.show_frame(ProjectPage)
 
 # Define ProjectPage class
 class ProjectPage(ttk.Frame):  # Change tk.Frame to ttk.Frame
     def __init__(self, parent, controller):
         ttk.Frame.__init__(self, parent)
         self.controller = controller
+
+        # Load information from the file when CurrentProject is not "New"
+        if CurrentProject != "New":
+            self.load_info_from_file()
+        
         self.title_label = ttk.Label(self, text="")
         self.title_label.pack(pady=10)
         self.text1 = ttk.Label(self, text="artifact_name")
@@ -76,6 +88,29 @@ class ProjectPage(ttk.Frame):  # Change tk.Frame to ttk.Frame
         self.delete_button = ttk.Button(self, text="Delete", command=lambda: self.delete_project(), style="Red.TButton")
         self.delete_button.pack(side=tk.RIGHT, padx=10, pady=10)
 
+    def load_info_from_file(self):
+        global artifact_name, description, package_id
+
+        # Load information from the "info.bukkitgpt" file
+        try:
+            with open(f"projects/{CurrentProject}/info.bukkitgpt", "r") as file:
+                info_data = json.load(file)
+
+            # Update the variables with the loaded information
+            artifact_name = info_data.get("artifact_name", "")
+            description = info_data.get("description", "")
+            package_id = info_data.get("package_id", "")
+
+            # Set the values in the input boxes
+            self.input1.insert(0, artifact_name)
+            self.input2.insert(0, description)
+            self.input3.insert(0, package_id)
+
+        except FileNotFoundError:
+            # Handle the case where the file doesn't exist
+            # messagebox.showwarning("Warning", f"Info file not found for {CurrentProject}. Creating a new file.")
+            pass
+
     def generate_project(self):
         global artifact_name, description, package_id
         artifact_name = self.input1.get()
@@ -83,6 +118,17 @@ class ProjectPage(ttk.Frame):  # Change tk.Frame to ttk.Frame
         package_id = self.input3.get()
         self.generate_button.config(text="Generating", state=tk.DISABLED)
         info = BuildProject()
+
+        # Save information to the "info.bukkitgpt" file
+        info_data = {
+            "artifact_name": artifact_name,
+            "description": description,
+            "package_id": package_id
+        }
+
+        with open(f"projects/{CurrentProject}/info.bukkitgpt", "w") as file:
+            json.dump(info_data, file)
+
         messagebox.showinfo("Result", info)
         self.generate_button.config(text="Generate", state=tk.NORMAL)
 
@@ -104,6 +150,67 @@ class SettingsPage(ttk.Frame):
         self.controller = controller
         self.title_label = ttk.Label(self, text="Settings")
         self.title_label.pack(pady=10)
+
+        # Add API_KEY input box and label
+        self.text1 = ttk.Label(self, text="API_KEY")
+        self.text1.pack(anchor="w")
+        self.input1 = ttk.Entry(self)
+        self.input1.insert(0, config.API_KEY)  # Load API_KEY from config.py
+        self.input1.pack(anchor="w")
+
+        # Add BASE_URL input box and label
+        self.text2 = ttk.Label(self, text="BASE_URL")
+        self.text2.pack(anchor="w")
+        self.input2 = ttk.Entry(self)
+        self.input2.insert(0, config.BASE_URL)  # Load BASE_URL from config.py
+        self.input2.pack(anchor="w")
+
+        # Add CODING_MODEL dropdown and label
+        self.text3 = ttk.Label(self, text="CODING_MODEL")
+        self.text3.pack(anchor="w")
+        self.options_coding_model = ["gpt-4", "gpt-3.5-turbo"]
+        self.selected_coding_model = tk.StringVar(value=config.CODING_MODEL)
+        self.dropdown_coding_model = ttk.Combobox(self, values=self.options_coding_model, textvariable=self.selected_coding_model)
+        self.dropdown_coding_model.pack(anchor="w")
+
+        # Add BETTER_DESCRIPTION_MODEL dropdown and label
+        self.text4 = ttk.Label(self, text="BETTER_DESCRIPTION_MODEL")
+        self.text4.pack(anchor="w")
+        self.options_description_model = ["gpt-4", "gpt-3.5-turbo"]
+        self.selected_description_model = tk.StringVar(value=config.BETTER_DESCRIPTION_MODEL)
+        self.dropdown_description_model = ttk.Combobox(self, values=self.options_description_model, textvariable=self.selected_description_model)
+        self.dropdown_description_model.pack(anchor="w")
+
+        # Add Save button
+        self.save_button = ttk.Button(self, text="Save", command=self.save_options)
+        self.save_button.pack(side=tk.BOTTOM, pady=10)
+
+    def save_options(self):
+        # Save the options to config.py (replace with your actual saving logic)
+        api_key = self.input1.get()
+        base_url = self.input2.get()
+        coding_model = self.selected_coding_model.get()
+        description_model = self.selected_description_model.get()
+
+        # Read the content of config.py
+        with open("config.py", "r") as file:
+            config_content = file.read()
+
+        # Update API_KEY
+        config_content = re.sub(r'API_KEY\s*=\s*".*"', f'API_KEY = "{api_key}"', config_content)
+        config_content = re.sub(r'BASE_URL\s*=\s*".*"', f'BASE_URL = "{base_url}"', config_content)
+        config_content = re.sub(r'CODING_MODEL\s*=\s*".*"', f'CODING_MODEL = "{coding_model}"', config_content)
+        config_content = re.sub(r'BETTER_DESCRIPTION_MODEL\s*=\s*".*"', f'BETTER_DESCRIPTION_MODEL = "{description_model}"', config_content)
+
+        # Write the updated content back to config.py
+        with open("config.py", "w") as file:
+            file.write(config_content)
+        
+        logger(f"SettingsPage: save options {config_content}")
+
+        messagebox.showwarning("Save Options", "Please exit the program and reopen it to reload the config.")
+
+        sys.exit()
 
 # Define App class
 class App(tk.Tk):
