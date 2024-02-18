@@ -23,9 +23,9 @@ jobs:
         pip install pyinstaller
         pip install -r requirements.txt
     - name: Build with Pyinstaller
-      run: pyinstaller --onedir --add-data "projects;projects" --add-data "logs;logs" console.py
+      run: pyinstaller --onedir --add-data "projects;projects" --add-data "logs;logs" ui.py
     - name: Upload the zip file as artifact
       uses: actions/upload-artifact@v4.3.1
       with:
-        name: build-console
-        path: dist/console/*
+        name: build-ui
+        path: dist/ui/*
