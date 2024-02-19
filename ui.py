@@ -46,7 +46,7 @@ class HomePage(ttk.Frame):
 
     def create_project(self):
         global CurrentProject
-        if config.API_KEY == "":
+        if config.API_KEY == "" and config.DEBUG_MODE == False:
             messagebox.showwarning("Warning", "Please enter an API_KEY!")
         else:
             CurrentProject = "New"
