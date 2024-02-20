@@ -9,7 +9,7 @@
 </div>
 
 > [!NOTE]
-> Developers and README translators are welcome to join the BukkitGPT Team!
+> Developers and README translators are welcome to join the CubeGPT Team!
 
 ## Table of Contents
 - [Introduction](https://github.com/BukkitGPT/BukkitGPT#introduction)
@@ -56,11 +56,11 @@ Advertising revenue will be split among contributors in proportion to their cont
 - [ ] Projects management
 - [ ] Settings
 
-### Other projects
-- [ ] DatapackGPT
-- [ ] ForgeGPT
-- [ ] FabricGPT
-- [ ] BukkitGPT++ (Generate ANYTHING) (Lab)
+### Other projects of CubeGPT Team
+- [x] Bukkit plugin generator. {*.jar} ([BukkitGPT](https://github.com/CubeGPT/BukkitGPT))
+- [ ] Structure generator. {*.schem} (BuilderGPT, or something?)
+- [ ] Serverpack generator. {*.zip} (ServerpackGPT or ServerGPT, or..?)
+- [ ] Have ideas or want to join our team? Send [us](mailto:admin@baimoqilin.top) an email!
 
 ## How it works
 When the user types the plugin description, the program lets `gpt-3.5-turbo` optimize the prompt, and then gives the optimized prompt to `gpt-4`. `gpt-4` will return it in json format, for example:

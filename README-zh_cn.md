@@ -12,7 +12,7 @@
 > 本中文版本使用ChatGPT 3.5翻译，未经校对。
   
 > [!NOTE]
-> BukkitGPT Team正在招贤纳士! 欢迎开发者和README翻译人员加入我们！
+> CubeGPT Team正在招贤纳士! 欢迎开发者和README翻译人员加入我们！
 
 ## 目录
 - [介绍](https://github.com/BukkitGPT/BukkitGPT#introduction)
@@ -70,11 +70,11 @@ BukkitGPT是一个开源、免费的，由AI驱动的Minecraft Bukkit插件生�
 - [ ] 项目管理
 - [ ] 设置
 
-### 其他项目
-- [ ] DatapackGPT
-- [ ] ForgeGPT
-- [ ] FabricGPT
-- [ ] BukkitGPT++（生成任何东西）（实验室）
+### CubeGPT Team的其他项目
+- [x] Bukkit插件生成器. {*.jar} ([BukkitGPT](https://github.com/CubeGPT/BukkitGPT))
+- [ ] Minecraft结构生成器. {*.schem} (BuilderGPT, or something?)
+- [ ] 服务器整合包生成器. {*.zip} (ServerpackGPT or ServerGPT, or..?)
+- [ ] 有主意或想要加入CubeGPT Team? 给[我们](mailto:admin@baimoqilin.top)发送一封邮件！
 
 ## 工作原理
 当用户输入插件描述时，程序会让`gpt-3.5-turbo`优化提示，然后将优化后的提示传递给`gpt-4`。`gpt-4`将以json格式返回，例如：
