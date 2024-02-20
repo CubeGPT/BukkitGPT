@@ -126,7 +126,7 @@ class ProjectPage(ttk.Frame):  # Change tk.Frame to ttk.Frame
             "package_id": package_id
         }
 
-        with open(f"projects/{CurrentProject}/info.bukkitgpt", "w") as file:
+        with open(f"projects/{artifact_name}/info.bukkitgpt", "w") as file:
             json.dump(info_data, file)
 
         messagebox.showinfo("Result", info)
