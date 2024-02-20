@@ -42,7 +42,9 @@ class HomePage(ttk.Frame):
         self.create_button = ttk.Button(self, text="Create", command=lambda: self.create_project(), width=15)
         self.create_button.pack(pady=(10, 5))
         self.settings_button = ttk.Button(self, text="Settings", command=lambda: controller.show_frame(SettingsPage), width=15)
-        self.settings_button.pack(pady=(5, 30))
+        self.settings_button.pack(pady=(5, 5))
+        self.theme_button = ttk.Button(self, text="Switch Theme", command=lambda: sv_ttk.toggle_theme(), width=15)
+        self.theme_button.pack(pady=(5))
 
     def create_project(self):
         global CurrentProject
@@ -221,10 +223,10 @@ class App(tk.Tk):
         # Set the window size
         self.geometry("800x600")
         # Create a container frame
-        self.container = tk.Frame(self, bg="white")
+        self.container = tk.Frame(self)
         self.container.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
         # Create a sidebar frame
-        self.sidebar = tk.Frame(self, bg="white")
+        self.sidebar = tk.Frame(self)
         self.sidebar.pack(side=tk.LEFT, fill=tk.Y, padx=10, pady=10)
         # Create a title label for the sidebar
         self.sidebar_title = tk.Label(self.sidebar, text="Projects")
