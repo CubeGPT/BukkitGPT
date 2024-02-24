@@ -10,9 +10,7 @@ import config
 import build
 
 def initialize():
-    version = "Alpha 0.2"
-
-    logger(f"Launch. Software version {version}, platform {sys.platform}")
+    logger(f"Launch. Software version {config.VERSION_NUMBER}, platform {sys.platform}")
     logger(f"""Configs: 
     BASE_URL = {config.BASE_URL}
     CODING_MODEL = {config.CODING_MODEL}
