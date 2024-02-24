@@ -4,8 +4,8 @@ import platform
 
 from log_writer import logger
 import core
-import build
 import config
+import updater
 
 def make_response(build_result):
     if "BUILD SUCCESS" in build_result:
@@ -24,6 +24,11 @@ def make_response(build_result):
             core.make_response(build_result)
 
 core.initialize()
+
+# will move to core.initialize in next version
+if config.DEBUG_MODE == False:
+    if updater.main() == True:
+        sys.exit()
 
 if sys.platform.startswith('linux') or sys.platform.startswith('daiwin'):
         clear_command = "clear"
