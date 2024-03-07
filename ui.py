@@ -195,20 +195,12 @@ class SettingsPage(ttk.Frame):
         description_model = self.selected_description_model.get()
 
         # Read the content of config.py
-        with open("config.py", "r") as file:
-            config_content = file.read()
-
-        # Update API_KEY
-        config_content = re.sub(r'API_KEY\s*=\s*".*"', f'API_KEY = "{api_key}"', config_content)
-        config_content = re.sub(r'BASE_URL\s*=\s*".*"', f'BASE_URL = "{base_url}"', config_content)
-        config_content = re.sub(r'CODING_MODEL\s*=\s*".*"', f'CODING_MODEL = "{coding_model}"', config_content)
-        config_content = re.sub(r'BETTER_DESCRIPTION_MODEL\s*=\s*".*"', f'BETTER_DESCRIPTION_MODEL = "{description_model}"', config_content)
-
-        # Write the updated content back to config.py
-        with open("config.py", "w") as file:
-            file.write(config_content)
+        config.edit_config("API_KEY", api_key)
+        config.edit_config("BASE_URL", base_url)
+        config.edit_config("CODING_MODEL", coding_model)
+        config.edit_config("DESCRIPTION_MODEL", description_model)
         
-        logger(f"SettingsPage: save options {config_content}")
+        logger(f"SettingsPage: save options")
 
         messagebox.showwarning("Save Options", "Please exit the program and reopen it to reload the config.")
 

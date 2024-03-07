@@ -1,1 +1,3 @@
-openai
+openai>=1.13.3
+sv_ttk
+pyyaml

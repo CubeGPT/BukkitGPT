@@ -11,12 +11,6 @@ import build
 
 def initialize():
     logger(f"Launch. Software version {config.VERSION_NUMBER}, platform {sys.platform}")
-    logger(f"""Configs: 
-    BASE_URL = {config.BASE_URL}
-    CODING_MODEL = {config.CODING_MODEL}
-    BETTER_DESCRIPTION_MODEL = {config.BETTER_DESCRIPTION_MODEL}
-    ENABLE_BETTER_DESCRIPTION = {config.ENABLE_BETTER_DESCRIPTION}
-    """)
 
 def askgpt(system_prompt, user_prompt, model_name):
     """
