@@ -8,6 +8,8 @@ import json
 import shutil
 import re
 import sys
+import subprocess
+import threading
 
 from log_writer import logger
 import core
@@ -19,11 +21,33 @@ artifact_name = None
 description = None
 package_id = None
 
-# Define BuildProject function
+def run_maven(text_area, maven):
+    process = subprocess.Popen(f"projects/{artifact_name}/build.bat", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    
+    for line in process.stdout:
+        text_area.insert(tk.END, line)
+        text_area.see(tk.END)
+    process.stdout.close()
+    return_code = process.wait()
+    if return_code == 0:
+        maven.destroy()
+
 def BuildProject():
     working_path = core.package_to_path(package_id)
     package_list = core.package_id_to_list(package_id)
-    result = core.generate_plugin(working_path, description, package_id, artifact_name, package_list)
+    core.generate_plugin(working_path, description, package_id, artifact_name, package_list, dont_build=True)
+
+    maven = tk.Tk()
+    maven.title("Building logs")
+
+    text_area = scrolledtext.ScrolledText(maven, wrap=tk.WORD)
+    text_area.pack(expand=True, fill='both')
+
+    thread = threading.Thread(target=run_maven(text_area, maven))
+    thread.start()
+
+    maven.mainloop()
+
     logger(f"BuildProject: {result}")
     if "BUILD SUCCESS" in result:
         return f"Congratulations! Your plugin is ready. Now add the plugin to the projects/{artifact_name}/target directory and just find the jar file and put it in your server's plugins folder. BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, please donate this project: https://www.buymeacoffee.com/baimoqilin"
@@ -31,7 +55,6 @@ def BuildProject():
         return "Build failed. This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code."
 
 
-# Define HomePage class
 class HomePage(ttk.Frame):
     def __init__(self, parent, controller):
         ttk.Frame.__init__(self, parent)
@@ -41,7 +64,8 @@ class HomePage(ttk.Frame):
         self.logo_label.pack(pady=(10))
         self.create_button = ttk.Button(self, text="Create", command=lambda: self.create_project(), width=15)
         self.create_button.pack(pady=(10, 5))
-        self.settings_button = ttk.Button(self, text="Settings", command=lambda: controller.show_frame(SettingsPage), width=15)
+        # self.settings_button = ttk.Button(self, text="Settings", command=lambda: controller.show_frame(SettingsPage), width=15)
+        self.settings_button = ttk.Button(self, text="Settings", command=self.open_settings, width=15)
         self.settings_button.pack(pady=(5, 5))
         self.theme_button = ttk.Button(self, text="Switch Theme", command=lambda: sv_ttk.toggle_theme(), width=15)
         self.theme_button.pack(pady=(5))
@@ -54,9 +78,11 @@ class HomePage(ttk.Frame):
             CurrentProject = "New"
             logger("HomePage: New project")
             self.controller.show_frame(ProjectPage)
+    
+    def open_settings(self):
+        os.system("notepad config.yaml")
 
-# Define ProjectPage class
-class ProjectPage(ttk.Frame):  # Change tk.Frame to ttk.Frame
+class ProjectPage(ttk.Frame):
     def __init__(self, parent, controller):
         ttk.Frame.__init__(self, parent)
         self.controller = controller
@@ -145,66 +171,66 @@ class ProjectPage(ttk.Frame):  # Change tk.Frame to ttk.Frame
     def update_title(self):
         self.title_label.config(text=CurrentProject)
 
-# Define SettingsPage class
-class SettingsPage(ttk.Frame):
-    def __init__(self, parent, controller):
-        ttk.Frame.__init__(self, parent)
-        self.controller = controller
-        self.title_label = ttk.Label(self, text="Settings")
-        self.title_label.pack(pady=10)
+# The orignal settings page.
+# class SettingsPage(ttk.Frame):
+#     def __init__(self, parent, controller):
+#         ttk.Frame.__init__(self, parent)
+#         self.controller = controller
+#         self.title_label = ttk.Label(self, text="Settings")
+#         self.title_label.pack(pady=10)
 
-        # Add API_KEY input box and label
-        self.text1 = ttk.Label(self, text="API_KEY")
-        self.text1.pack(anchor="w")
-        self.input1 = ttk.Entry(self)
-        self.input1.insert(0, config.API_KEY)  # Load API_KEY from config.py
-        self.input1.pack(anchor="w")
+#         # Add API_KEY input box and label
+#         self.text1 = ttk.Label(self, text="API_KEY")
+#         self.text1.pack(anchor="w")
+#         self.input1 = ttk.Entry(self)
+#         self.input1.insert(0, config.API_KEY)  # Load API_KEY from config.py
+#         self.input1.pack(anchor="w")
 
-        # Add BASE_URL input box and label
-        self.text2 = ttk.Label(self, text="BASE_URL")
-        self.text2.pack(anchor="w")
-        self.input2 = ttk.Entry(self)
-        self.input2.insert(0, config.BASE_URL)  # Load BASE_URL from config.py
-        self.input2.pack(anchor="w")
+#         # Add BASE_URL input box and label
+#         self.text2 = ttk.Label(self, text="BASE_URL")
+#         self.text2.pack(anchor="w")
+#         self.input2 = ttk.Entry(self)
+#         self.input2.insert(0, config.BASE_URL)  # Load BASE_URL from config.py
+#         self.input2.pack(anchor="w")
 
-        # Add CODING_MODEL dropdown and label
-        self.text3 = ttk.Label(self, text="CODING_MODEL")
-        self.text3.pack(anchor="w")
-        self.options_coding_model = ["gpt-4", "gpt-3.5-turbo"]
-        self.selected_coding_model = tk.StringVar(value=config.CODING_MODEL)
-        self.dropdown_coding_model = ttk.Combobox(self, values=self.options_coding_model, textvariable=self.selected_coding_model)
-        self.dropdown_coding_model.pack(anchor="w")
+#         # Add CODING_MODEL dropdown and label
+#         self.text3 = ttk.Label(self, text="CODING_MODEL")
+#         self.text3.pack(anchor="w")
+#         self.options_coding_model = ["gpt-4", "gpt-3.5-turbo"]
+#         self.selected_coding_model = tk.StringVar(value=config.CODING_MODEL)
+#         self.dropdown_coding_model = ttk.Combobox(self, values=self.options_coding_model, textvariable=self.selected_coding_model)
+#         self.dropdown_coding_model.pack(anchor="w")
 
-        # Add BETTER_DESCRIPTION_MODEL dropdown and label
-        self.text4 = ttk.Label(self, text="BETTER_DESCRIPTION_MODEL")
-        self.text4.pack(anchor="w")
-        self.options_description_model = ["gpt-4", "gpt-3.5-turbo"]
-        self.selected_description_model = tk.StringVar(value=config.BETTER_DESCRIPTION_MODEL)
-        self.dropdown_description_model = ttk.Combobox(self, values=self.options_description_model, textvariable=self.selected_description_model)
-        self.dropdown_description_model.pack(anchor="w")
+#         # Add BETTER_DESCRIPTION_MODEL dropdown and label
+#         self.text4 = ttk.Label(self, text="BETTER_DESCRIPTION_MODEL")
+#         self.text4.pack(anchor="w")
+#         self.options_description_model = ["gpt-4", "gpt-3.5-turbo"]
+#         self.selected_description_model = tk.StringVar(value=config.BETTER_DESCRIPTION_MODEL)
+#         self.dropdown_description_model = ttk.Combobox(self, values=self.options_description_model, textvariable=self.selected_description_model)
+#         self.dropdown_description_model.pack(anchor="w")
 
-        # Add Save button
-        self.save_button = ttk.Button(self, text="Save", command=self.save_options)
-        self.save_button.pack(side=tk.BOTTOM, pady=10)
+#         # Add Save button
+#         self.save_button = ttk.Button(self, text="Save", command=self.save_options)
+#         self.save_button.pack(side=tk.BOTTOM, pady=10)
 
-    def save_options(self):
-        # Save the options to config.py (replace with your actual saving logic)
-        api_key = self.input1.get()
-        base_url = self.input2.get()
-        coding_model = self.selected_coding_model.get()
-        description_model = self.selected_description_model.get()
+#     def save_options(self):
+#         # Save the options to config.py (replace with your actual saving logic)
+#         api_key = self.input1.get()
+#         base_url = self.input2.get()
+#         coding_model = self.selected_coding_model.get()
+#         description_model = self.selected_description_model.get()
 
-        # Read the content of config.py
-        config.edit_config("API_KEY", api_key)
-        config.edit_config("BASE_URL", base_url)
-        config.edit_config("CODING_MODEL", coding_model)
-        config.edit_config("DESCRIPTION_MODEL", description_model)
+#         # Read the content of config.py
+#         config.edit_config("API_KEY", api_key)
+#         config.edit_config("BASE_URL", base_url)
+#         config.edit_config("CODING_MODEL", coding_model)
+#         config.edit_config("DESCRIPTION_MODEL", description_model)
         
-        logger(f"SettingsPage: save options")
+#         logger(f"SettingsPage: save options")
 
-        messagebox.showwarning("Save Options", "Please exit the program and reopen it to reload the config.")
+#         messagebox.showwarning("Save Options", "Please exit the program and reopen it to reload the config.")
 
-        sys.exit()
+#         sys.exit()
 
 # Define App class
 class App(tk.Tk):
@@ -231,14 +257,15 @@ class App(tk.Tk):
         # Create Home and Settings buttons under the sidebar
         self.home_button = ttk.Button(self.sidebar, text="Home", command=lambda: self.show_frame(HomePage), width=15)
         self.home_button.pack(pady=(30, 5))
-        self.settings_button_sidebar = ttk.Button(self.sidebar, text="Settings", command=lambda: self.show_frame(SettingsPage), width=15)
+        # self.settings_button_sidebar = ttk.Button(self.sidebar, text="Settings", command=lambda: self.show_frame(SettingsPage), width=15)
+        self.settings_button_sidebar = ttk.Button(self.sidebar, text="Settings", command=self.open_settings, width=15)
         self.settings_button_sidebar.pack(pady=(5, 30))
         # Populate the listbox with the names of the folders in projects/
         self.populate_list()
         # Create a dictionary of frames
         self.frames = {}
         # Loop through the HomePage, ProjectPage, and SettingsPage classes
-        for F in (HomePage, ProjectPage, SettingsPage):
+        for F in (HomePage, ProjectPage):
             # Create a frame for each class
             frame = F(self.container, self)
             # Store the frame in the dictionary
@@ -258,6 +285,9 @@ class App(tk.Tk):
         # If the frame is ProjectPage, update the title
         if frame_class == ProjectPage:
             frame.update_title()
+    
+    def open_settings(self):
+        os.system("notepad config.yaml")
 
     def populate_list(self):
         # Populate the listbox with the names of the folders in projects/
