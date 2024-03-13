@@ -96,7 +96,7 @@ def package_id_to_list(package_id):
     package_list = package_id.split('.')
     return package_list
 
-def generate_plugin(working_path, description, package_id, artifact_name, package_list):
+def generate_plugin(working_path, description, package_id, artifact_name, package_list, dont_build=False):
     # Edit info.bukkitgpt
     with open("info.bukkitgpt", "w") as f:
         f.write("{\n")
@@ -118,6 +118,9 @@ def generate_plugin(working_path, description, package_id, artifact_name, packag
 
     print("[2/3] Creating project and copying the codes...")
     text_to_action(code_reponse, artifact_name, package_list)
+
+    if dont_build == True:
+        return "OK"
 
     print("[3/3] Building project.")
     print("The first build can take 5 minutes or even more, as Maven needs to download a lot of files. This depends somewhat on your network. You're better off doing something else during this long wait.")
