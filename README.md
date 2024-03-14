@@ -14,10 +14,11 @@
 ## Table of Contents
 - [Introduction](https://github.com/BukkitGPT/BukkitGPT#introduction)
 - [Advertisement](https://github.com/BukkitGPT/BukkitGPT#advertisement)
-- [Features and Plans](https://github.com/BukkitGPT/BukkitGPT#features)
+- [Features](https://github.com/BukkitGPT/BukkitGPT#features)
   - [Core](https://github.com/BukkitGPT/BukkitGPT#core)
   - [GUI](https://github.com/BukkitGPT/BukkitGPT#gui)
-  - [WebApp](https://github.com/BukkitGPT/BukkitGPT#webapp)
+- [Plans](https://github.com/BukkitGPT/BukkitGPT#plans)
+  - [Other projects of CubeGPT Team](https://github.com/BukkitGPT/BukkitGPT#other-projects-of-CubeGPT-team)
 - [How it works](https://github.com/BukkitGPT/BukkitGPT#how-it-works)
 - [Requirements](https://github.com/BukkitGPT/BukkitGPT#requirements)
 - [Quick Start](https://github.com/BukkitGPT/BukkitGPT#quick-start)
@@ -37,24 +38,20 @@ BukkitGPT is an open source, free, AI-powered Minecraft Bukkit plugin generator.
 Contact: [admin@baimoqilin.top](mailto:admin@baimoqilin.top)  
 Advertising revenue will be split among contributors in proportion to their contribution.
 
-## Features and Plans
+## Features
 
 ### Core
-- [x] Automatically generate code
-- [x] Automatically fix bugs
-- [ ] ~~Automatically test plugins~~ After long reflection, this feature has been removed from the development program due to its low usefulness.
-- [x] AI `Better Description`
+- Automatically generate code
+- Automatically fix bugs
+- AI `Better Description`
 
 ### GUI
-~~(Developing, finish simple UI until late March)~~ Finished ahead of schedule!
-- [x] Creating projects
-- [x] Projects management
-- [x] Settings
+- Creating projects
+- Projects management
 
-### WebApp
-- [ ] Creating projects
-- [ ] Projects management
-- [ ] Settings
+## Plans and TODOs
+
+Moved to [Projects Tab](https://github.com/orgs/CubeGPT/projects/4).
 
 ### Other projects of CubeGPT Team
 - [x] Bukkit plugin generator. {*.jar} ([BukkitGPT](https://github.com/CubeGPT/BukkitGPT))
