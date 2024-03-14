@@ -30,7 +30,7 @@ jobs:
                 },
                 {
                   "role": "user",
-                  "content": "Original text: $(cat README.md)"
+                  "content": "Original text: \$(cat README.md)"
                 }
               ]
             }')
