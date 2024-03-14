@@ -21,10 +21,7 @@ jobs:
           response=$(curl -s -X POST https://api.chatanywhere.cn/v1/chat/completions \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.GPT_API_KEY }}" \
-            -d '{
-              "model": "gpt-3.5-turbo",
-              "messages": [{"role": "user", "content": "Please translate the text into Chinese. Original text:\n'$(cat README.md)'"}]
-            }')
+            -d '{"model": "gpt-3.5-turbo","messages": [{"role": "user", "content": "Please translate the text into Chinese. Original text:\n'$(cat README.md)'"}}')
           echo "::set-output name=translated::$(echo $response | jq -r '.choices[0].message.content')"
 
       - name: Update README-zh_cn.md
