@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  translate-and-update:
+  translate-and-commit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,19 +21,28 @@ jobs:
           response=$(curl -s -X POST https://api.chatanywhere.cn/v1/chat/completions \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.GPT_API_KEY }}" \
-            -d '{"model": "gpt-3.5-turbo","messages": [{"role": "user", "content": "Please translate the text into Chinese. Original text:\n'$(cat README.md)'"}}')
+            -d '{
+              "model": "gpt-3.5-turbo",
+              "messages": [
+                {
+                  "role": "system",
+                  "content": "Please translate the text into Chinese. Don't respond anything else, but only the translated text."
+                },
+                {
+                  "role": "user",
+                  "content": "Original text: $(cat README.md)"
+                }
+              ]
+            }')
           echo "::set-output name=translated::$(echo $response | jq -r '.choices[0].message.content')"
 
-      - name: Update README-zh_cn.md
+      - name: Commit translated README
         run: |
           echo "${{ steps.translate.outputs.translated }}" > README-zh_cn.md
-
-      - name: Commit and push changes
-        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add README-zh_cn.md
           git commit -m "Update Chinese translation of README"
           git push
         env:
-          GH_TOKEN: ${{ secrets.PUSH_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PUSH_GITHUB_TOKEN }}
