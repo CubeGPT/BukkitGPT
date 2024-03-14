@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import scrolledtext
 import sv_ttk
 
 import os
@@ -20,17 +21,25 @@ CurrentProject = None
 artifact_name = None
 description = None
 package_id = None
+log_output = None
 
 def run_maven(text_area, maven):
+    global log_output
+
     process = subprocess.Popen(f"projects/{artifact_name}/build.bat", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     
+    log_output = ""
+    
     for line in process.stdout:
+        log_output += line
         text_area.insert(tk.END, line)
         text_area.see(tk.END)
+    
     process.stdout.close()
-    return_code = process.wait()
-    if return_code == 0:
-        maven.destroy()
+    process.wait()
+    maven.destroy()
+
+    return log_output
 
 def BuildProject():
     working_path = core.package_to_path(package_id)
@@ -48,13 +57,12 @@ def BuildProject():
 
     maven.mainloop()
 
-    logger(f"BuildProject: {result}")
-    if "BUILD SUCCESS" in result:
+    logger(f"BuildProject: {log_output}")
+    if "BUILD SUCCESS" in log_output:
         return f"Congratulations! Your plugin is ready. Now add the plugin to the projects/{artifact_name}/target directory and just find the jar file and put it in your server's plugins folder. BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, please donate this project: https://www.buymeacoffee.com/baimoqilin"
     else:
         return "Build failed. This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code."
-
-
+    
 class HomePage(ttk.Frame):
     def __init__(self, parent, controller):
         ttk.Frame.__init__(self, parent)
