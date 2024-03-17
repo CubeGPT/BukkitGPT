@@ -1,12 +1,12 @@
 # GPT SETTINGS #
 # EDIT REQUIRED
 # Get your api key from openai. Remember google/bing is always your best friend.
-# Model name: gpt-4, gpt-4 turbo, gpt-3.5-turbo.
-# Recommend -> gpt-4, which codes more accurately and is less likely to write bugs, but is more expensive.
+# Model name: gpt-4-turbo-preview, gpt-3.5-turbo, etc.
+# Recommend -> gpt-4-turbo-preview, which codes more accurately and is less likely to write bugs, but is more expensive.
 
 API_KEY: "yourapikey"
 BASE_URL: "https://api.openai.com/v1"
-CODING_MODEL: "gpt-4"
+CODING_MODEL: "gpt-4-turbo-preview" # Don't use gpt-4, because this model is longer supports json modes.
 BETTER_DESCRIPTION_MODEL: "gpt-3.5-turbo"
 
 # PROMPT SETTINGS #
@@ -54,4 +54,4 @@ USR_BETTER_DESCRIPTION: "&description%"
 
 # Developer Settings #
 DEBUG_MODE: False
-VERSION_NUMBER: "2.1.0" #NEVER EDIT THIS IF YOU DON'T KNOW WHAT ARE YOU DOING
+VERSION_NUMBER: "2.3.0" #NEVER EDIT THIS IF YOU DON'T KNOW WHAT ARE YOU DOING
