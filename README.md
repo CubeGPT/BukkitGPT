@@ -122,7 +122,7 @@ If you like the project, you can give the project a star, or [submit an issue](h
 
 ## License
 ```
-Copyright [2024] [BukkitGPT Team]
+Copyright [2024] [CubeGPT Team]
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
