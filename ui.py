@@ -15,6 +15,7 @@ import threading
 from log_writer import logger
 import core
 import config
+import i18n
 
 # Define global variables
 CurrentProject = None
@@ -47,7 +48,7 @@ def BuildProject():
     core.generate_plugin(working_path, description, package_id, artifact_name, package_list, dont_build=True)
 
     maven = tk.Tk()
-    maven.title("Building logs")
+    maven.title(i18n.get_localization("buildproject.title"))
 
     text_area = scrolledtext.ScrolledText(maven, wrap=tk.WORD)
     text_area.pack(expand=True, fill='both')
@@ -59,9 +60,9 @@ def BuildProject():
 
     logger(f"BuildProject: {log_output}")
     if "BUILD SUCCESS" in log_output:
-        return f"Congratulations! Your plugin is ready. Now add the plugin to the projects/{artifact_name}/target directory and just find the jar file and put it in your server's plugins folder. BukkitGPT is an open source and free project. Feel free to make pull requests. If you can, please donate this project: https://www.buymeacoffee.com/baimoqilin"
+        return i18n.get_localization("buildproject.success")
     else:
-        return "Build failed. This may be due to a bug in the ChatGPT writeup. Typically, GPT4 writes more accurate code. So you should probably toggle CODING_MODEL to gpt-4 in config.py. In later releases, we'll add the ability to have ChatGPT fix bugs automatically, but not yet in the version you're using. You can start the program again and enter the same description to have ChatGPT regenerate the code."
+        return i18n.get_localization("buildproject.failed")
     
 class HomePage(ttk.Frame):
     def __init__(self, parent, controller):
@@ -70,12 +71,12 @@ class HomePage(ttk.Frame):
         self.logo = tk.PhotoImage(file="ui/logo.png")
         self.logo_label = ttk.Label(self, image=self.logo)  # Change tk.Label to ttk.Label
         self.logo_label.pack(pady=(10))
-        self.create_button = ttk.Button(self, text="Create", command=lambda: self.create_project(), width=15)
+        self.create_button = ttk.Button(self, text=i18n.get_localization("homepage.button.create"), command=lambda: self.create_project(), width=15)
         self.create_button.pack(pady=(10, 5))
         # self.settings_button = ttk.Button(self, text="Settings", command=lambda: controller.show_frame(SettingsPage), width=15)
-        self.settings_button = ttk.Button(self, text="Settings", command=self.open_settings, width=15)
+        self.settings_button = ttk.Button(self, text=i18n.get_localization("homepage.button.settings"), command=self.open_settings, width=15)
         self.settings_button.pack(pady=(5, 5))
-        self.theme_button = ttk.Button(self, text="Switch Theme", command=lambda: sv_ttk.toggle_theme(), width=15)
+        self.theme_button = ttk.Button(self, text=i18n.get_localization("homepage.button.switch_theme"), command=lambda: sv_ttk.toggle_theme(), width=15)
         self.theme_button.pack(pady=(5))
 
     def create_project(self):
@@ -109,7 +110,7 @@ class ProjectPage(ttk.Frame):
         self.input1.pack(anchor="w")
         self.text3 = ttk.Label(self, text="description")
         self.text3.pack(anchor="w")
-        self.text4 = ttk.Label(self, text="What features do you want your plugin to have? Please describe as clearly and thoroughly as possible. For example, does it require any commands to be registered? If you think you're inexperienced in this aspect of prompt engineering, we recommend you turn on the better description option in Settings.")
+        self.text4 = ttk.Label(self, text="C")
         self.text4.pack(anchor="w")
         self.input2 = ttk.Entry(self)
         self.input2.pack(anchor="w")

@@ -1,3 +1,5 @@
+UI_LANGUAGE: "en_us"
+
 # GPT SETTINGS #
 # EDIT REQUIRED
 # Get your api key from openai. Remember google/bing is always your best friend.
